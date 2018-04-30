@@ -8,9 +8,9 @@ ansible_node_user_name:     ansible
 ansible_node_user_uid:      10001
 ansible_node_user_shell:    '/bin/bash'
 ansible_node_user_home:     '/data/ansible'
-# ansible_node_user_comment:  'Ansible account'
+ansible_node_user_comment:  'Ansible account'
 # ansible_node_user_password: 'Ansible account'
-# ansible_node_user_skeleton: '/etc/skel'
+ansible_node_user_skeleton: '/etc/skel'
 
 ansible_node_admin_groups:
 - wheel
