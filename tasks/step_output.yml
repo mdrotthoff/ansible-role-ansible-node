@@ -5,6 +5,11 @@
 
 # tasks to output the results from each of the main tasks
 
+- name: Dump the ansible node EPEL install results
+  debug:
+    var: ansible_node_epel_install
+  when:  ansible_node_epel_install is defined
+
 - name: Dump the ansible node package install results
   debug:
     var: ansible_node_package_install

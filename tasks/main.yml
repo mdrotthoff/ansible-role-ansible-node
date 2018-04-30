@@ -5,6 +5,13 @@
 
 # tasks to bootstrap an Ansible node
 
+- name: Ensure that the EPEL repository is installed for EL flavors
+  package:
+    name:     "epel-release"
+    state:    present
+  when:       ansible_distribution != 'Fedora'
+  register:   ansible_node_epel_install
+
 - name: Ensure that the minimum necessary packages are installed
   package:
     name:     "{{ item }}"
