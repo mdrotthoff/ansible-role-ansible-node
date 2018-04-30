@@ -1,2 +1,33 @@
 ---
-# defaults file for ansible-role-ansible-node
+# $Author$
+# $Date$
+# $Source$
+
+# default variable values for ansible-node
+ansible_node_user_name:     ansible
+ansible_node_user_uid:      10001
+ansible_node_user_shell:    '/bin/bash'
+ansible_node_user_home:     '/data/ansible'
+# ansible_node_user_comment:  'Ansible account'
+# ansible_node_user_password: 'Ansible account'
+# ansible_node_user_skeleton: '/etc/skel'
+
+ansible_node_admin_groups:
+- wheel
+#- adm
+#- sys
+
+ansible_node_group_name:    ansible
+ansible_node_group_gid:     10001
+
+ansible_node_packages:
+- python
+- facter
+- libselinux-python
+
+ansible_node_authorized_keys:
+- 'ansible.id_rsa.pub'
+- 'mdrotthoff.id_rsa.pub'
+- 'test.id_rsa.pub'
+
+ansible_node_step_dump:     true

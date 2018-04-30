@@ -1,2 +1,65 @@
 ---
-# tasks file for ansible-role-ansible-node
+# $Author$
+# $Date$
+# $Source$
+
+# tasks to bootstrap an Ansible node
+
+- name: Ensure that the minimum necessary packages are installed
+  package:
+    name:     "{{ item }}"
+    state:    present
+  with_items: "{{ ansible_node_packages }}"
+  when:       ansible_node_packages is defined
+  register:   ansible_node_package_install
+
+- name: Create the ansible node group
+  group:
+    name:   "{{ ansible_node_group_name }}"
+    gid:    "{{ ansible_node_group_gid }}"
+    state:  present
+  register: ansible_node_group_create
+
+- name: Create the user home directory
+  file:
+    name:    "{{ ansible_node_user_home }}"
+    state:   directory
+    recurse: true
+  register:  ansible_node_create_user_home
+
+- name: Remove the user home directory if it was created
+  file:
+    name:   "{{ ansible_node_user_home }}"
+    state:  absent
+  when:     ansible_node_create_user_home.changed
+  register: ansible_node_remove_user_home
+
+- name: Create the ansible node user
+  user:
+    name:        "{{ ansible_node_user_name }}"
+    uid:         "{{ ansible_node_user_uid }}"
+    group:       "{{ ansible_node_group_name }}"
+    groups:      "{{ ansible_node_admin_groups | default(omit) }}"
+    shell:       "{{ ansible_node_user_shell }}"
+    home:        "{{ ansible_node_user_home }}"
+    comment:     "{{ ansible_node_user_comment | default(omit) }}"
+    password:    "{{ ansible_node_user_password | default(omit) }}"
+    skeleton:    "{{ ansible_node_user_skeleton | default(none) }}"
+    state:       present
+  register:      ansible_node_user_create
+
+- name: Add the specified SSH keys to the authorized keys file
+  authorized_key:
+    user:     "{{ ansible_node_user_name }}"
+    key:      "{{ lookup('file', item) }}"
+    comment:  "Source: {{ item }}"
+    state:    present
+  with_items: "{{ ansible_node_authorized_keys }}"
+  when:       ansible_node_authorized_keys is defined
+  register:   ansible_node_authorized_keys_install
+
+- name: Dump the step output if requested
+  include_tasks: step_output.yml
+  when:
+  - ansible_node_step_dump is defined
+  - ansible_node_step_dump

@@ -1,0 +1,36 @@
+---
+# $Author$
+# $Date$
+# $Source$
+
+# tasks to output the results from each of the main tasks
+
+- name: Dump the ansible node package install results
+  debug:
+    var: ansible_node_package_install
+  when:  ansible_node_package_install is defined
+
+- name: Dump the ansible node group create results
+  debug:
+    var: ansible_node_group_create
+  when:  ansible_node_group_create is defined
+
+- name: Dump the ansible node user home directory create results
+  debug:
+    var: ansible_node_create_user_home
+  when:  ansible_node_create_user_home is defined
+
+- name: Dump the ansible node user home directory remove results
+  debug:
+    var: ansible_node_remove_user_home
+  when:  ansible_node_remove_user_home is defined
+
+- name: Dump the ansible node user create results
+  debug:
+    var: ansible_node_user_create
+  when:  ansible_node_user_create is defined
+
+- name: Dump the ansible node SSH authorized keys file maintenance
+  debug:
+    var: ansible_node_authorized_keys_install
+  when:  ansible_node_authorized_keys_install is defined
