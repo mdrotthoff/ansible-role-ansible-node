@@ -30,4 +30,4 @@ ansible_node_authorized_keys:
 - 'mdrotthoff.id_rsa.pub'
 - 'test.id_rsa.pub'
 
-ansible_node_step_dump:     true
+ansible_node_step_dump:     false
